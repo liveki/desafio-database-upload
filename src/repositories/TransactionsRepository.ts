@@ -45,6 +45,24 @@ class TransactionsRepository extends Repository<Transaction> {
 
     return balance;
   }
+
+  public async all(): Promise<Transaction[]> {
+    const transactions = await this.find({
+      select: {
+        id: true,
+        title: true,
+        type: true,
+        value: true,
+        category: {
+          id: true,
+          title: true,
+        },
+      },
+      relations: ['category'],
+    });
+
+    return transactions;
+  }
 }
 
 export default TransactionsRepository;
